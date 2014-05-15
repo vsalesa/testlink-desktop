@@ -3,9 +3,7 @@
 import wx
 import wx.html
 import Backend
-import Dialog2
 import Dialog3
-import Dialog4
 import cPickle as pickle
 
 def create(parent):
@@ -113,8 +111,6 @@ class Dialog1(wx.Dialog):
         self.CreateSuiteButton = wx.Button(id=wxID_DIALOG1CREATESUITEBUTTON,
               label='Create Suite', name='CreateSuiteButton', parent=self,
               pos=wx.Point(24, 552), size=wx.Size(216, 24), style=0)
-        self.CreateSuiteButton.Bind(wx.EVT_BUTTON,
-              self.OnCreateSuiteButtonButton, id=wxID_DIALOG1CREATESUITEBUTTON)
 
         self.CreateCaseButton = wx.Button(id=wxID_DIALOG1CREATECASEBUTTON,
               label='Create Test Cases', name='CreateCaseButton', parent=self,
@@ -431,32 +427,7 @@ class Dialog1(wx.Dialog):
         self.InputLabel.SetLabel('Test Case Name')
 
     def OnCreateCaseButtonButton(self, event):
-        print self.RankTracker
-        if len(self.RankTracker) > 1:
-            self.dlg2 = Dialog2.Dialog2(self)
-            try:
-                self.dlg2.ShowModal()
-            finally:
-                try:
-                    self.UploadCases = self.dlg2.CaseList
-                    total = len(self.UploadCases)
-                    i = 0
-                    for case in self.UploadCases:
-                        response = Backend.CreateTestCase(case[0], self.RankIDTracker[-1],
-                            self.CurrentProject, 'justin', case[1], [])
-                        print response
-                        response_id = response[0]['id']
-                        self.CasesList.append(case[0])
-                        self.CasesIDList.append(response_id)
-                        i = i + 1
-                        progress = (float(i)/float(total))*100.0
-                        self.SavingGauge.SetValue(progress)
-                    self.CaseList.Set(self.CasesList)
-                    self.SavingGauge.SetValue(0)
-                finally:
-                    pass
-        else:
-            pass
+        self.dlg2 = Dialog2.Dialog2(self)
 
     def OnLoadTestPlanButton(self, event):
         #print "Current Project", self.CurrentProject
@@ -540,7 +511,6 @@ class Dialog1(wx.Dialog):
                             print "Appending case #", case
                             response = Backend.AddCaseToTestPlan(self.CurrentProject,
                                         response_id, external_id, version)
-                            print "Response: ", response 
                         i = i + 1
                         total = len(self.LoadQueueIDList)
                         progress = float(i)/float(total)
@@ -556,30 +526,8 @@ class Dialog1(wx.Dialog):
                             
             finally:
                 pass
-
-    def OnCreateSuiteButtonButton(self, event):
-        if self.CurrentProject != 'x':
-            print "Create Suite", self.CurrentProject
-            self.dlg4 = Dialog4.Dialog4(self)
-            try:
-                self.dlg4.ShowModal()
-            finally:
-                try:
-                    self.Entry = self.dlg4.Entry
-                    print self.Entry
-                    print "Should be closed"
-                    print len(self.RankIDTracker)
-                    if len(self.RankIDTracker) == 1:
-                        print "Top Level Suite"
-                        parentid = False
-                    else:
-                        parentid = self.RankIDTracker[-1]
-                    response = Backend.CreateTestSuite(self.CurrentProject, 
-                                self.Entry[0], self.Entry[1], parentid)
-                    print response
-                    response_id = response[0]['id']
-                    self.SuiteList.append(self.Entry[0])
-                    self.SuiteIDList.append(response_id)
-                    self.SuitesList.Set(self.SuiteList)
-                finally:
-                    pass
+                    
+        
+        
+            
+            
