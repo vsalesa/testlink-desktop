@@ -156,10 +156,8 @@ class Frame1(wx.Frame):
         self.CurrentCase = 0
         self.CaseList = []
         self.NameList = []
-        self.FilterType = 0
-        self.FilterTypes = ['No Filter', 'Not Run', 'Passed', 'Failed', 'Blocked']
+        self.FilterTypes = ['No Filter', 'Passed', 'Failed', 'Blocked']
         self.FilterChoice.SetItems(self.FilterTypes)
-        self.FilterChoice.SetSelection(0)
         
     def SetNameSummary(self, i):
         try:
@@ -180,26 +178,14 @@ class Frame1(wx.Frame):
         
     def ShowNext(self):
         if self.CurrentCase == len(self.CaseIndex) - 1:
-            print self.CurrentCase, "len(self.CaseIndex) = ", len(self.CaseIndex)
+            #print self.CurrentCase
             self.SetNameSummary(0)
             self.CaseNameList.SetSelection(0)
             return True
         else:
-            if self.FilterType == 0:
-                print self.CurrentCase, "Else", len(self.CaseIndex)
-            elif self.FilterType == 1:
-                print self.CurrentCase, "Else", len(self.NotRunIndex)
-            elif self.FilterType == 2:
-                print self.CurrentCase, "Else", len(self.PassIndex)
-            elif self.FilterType == 3:
-                print self.CurrentCase, "Else", len(self.FailIndex)
-            elif self.FilterType == 4:
-                print self.CurrentCase, "Else", len(self.BlockIndex)
+            #print self.CurrentCase, "Else", len(self.CaseIndex)
             self.SetNameSummary(self.CurrentCase+1)
-            try:
-                self.CaseNameList.SetSelection(self.CurrentCase+1)
-            finally:
-                print "CurrentCase+1=", (self.CurrentCase+1)
+            self.CaseNameList.SetSelection(self.CurrentCase+1)
             return False
         
     def OnBackButton(self, event):
@@ -217,39 +203,13 @@ class Frame1(wx.Frame):
             self.OpenDialog()
         else:
             begin = self.ShowNext()
-            if self.FilterType == 0:
-                update = Backend.UpdateResult(self.CaseIndex[self.CurrentCase], self.CurrentTestPlan, 'p')
-            elif self.FilterType == 1:
-                update = Backend.UpdateResult(self.NotRunIndex[self.CurrentCase], self.CurrentTestPlan, 'p')
-                self.NotRunIndex.pop(self.CurrentCase)
-                self.NotRunNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.NotRunNameList)
-            elif self.FilterType == 2:
-                pass
-            elif self.FilterType == 3:
-                update = Backend.UpdateResult(self.FailIndex[self.CurrentCase], self.CurrentTestPlan, 'p')
-                self.FailIndex.pop(self.CurrentCase)
-                self.FailNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.FailNameList)
-            elif self.FilterType == 4:
-                update = Backend.UpdateResult(self.BlockIndex[self.CurrentCase], self.CurrentTestPlan, 'p')
-                self.BlockIndex.pop(self.CurrentCase)
-                self.BlockNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.BlockNameList)
+            update = Backend.UpdateResult(self.CaseIndex[self.CurrentCase], self.CurrentTestPlan, 'p')
             #print self.CaseIndex
-            
+            self.CaseNameList.SetItemBackgroundColour(self.CurrentCase, wx.Colour(0, 255, 128))
+            self.CaseNameList.SetItemForegroundColour(self.CurrentCase, wx.Colour(0, 255, 128))
             modentry = self.CaseList[self.CurrentCase][0]
             modentry = '[P]' + modentry
-            
-            if self.FilterType == 0:
-                self.CaseNameList.SetString(self.CurrentCase, modentry)
-            elif self.FilterType == 1:
-                self.NameList[self.NotRunIndexXREF[self.CurrentCase]] = modentry
-            elif self.FilterType == 3:
-                self.NameList[self.FailIndexXREF[self.CurrentCase]] = modentry
-            elif self.FilterType == 4:
-                self.NameList[self.BlockIndexXREF[self.CurrentCase]] = modentry
-            self.CaseList[self.CurrentCase][2] = 'p'
+            self.CaseNameList.SetString(self.CurrentCase, modentry)
             self.CurrentCase = self.CurrentCase+1
             if begin:
                 self.CurrentCase = 0
@@ -260,37 +220,12 @@ class Frame1(wx.Frame):
             self.OpenDialog()
         else:
             begin = self.ShowNext()
-            if self.FilterType == 0:
-                update = Backend.UpdateResult(self.CaseIndex[self.CurrentCase], self.CurrentTestPlan, 'f')
-            elif self.FilterType == 1:
-                update = Backend.UpdateResult(self.NotRunIndex[self.CurrentCase], self.CurrentTestPlan, 'f')
-                self.NotRunIndex.pop(self.CurrentCase)
-                self.NotRunNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.NotRunNameList)
-            elif self.FilterType == 2:
-                update = Backend.UpdateResult(self.PassIndex[self.CurrentCase], self.CurrentTestPlan, 'f')
-                self.PassIndex.pop(self.CurrentCase)
-                self.PassNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.FailNameList)
-            elif self.FilterType == 3:
-                pass
-            elif self.FilterType == 4:
-                update = Backend.UpdateResult(self.BlockIndex[self.CurrentCase], self.CurrentTestPlan, 'f')
-                self.BlockIndex.pop(self.CurrentCase)
-                self.BlockNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.BlockNameList)
-                
+            update = Backend.UpdateResult(self.CaseIndex[self.CurrentCase], self.CurrentTestPlan, 'f')
+            self.CaseNameList.SetItemBackgroundColour(self.CurrentCase, wx.Colour(0, 255, 128))
+            self.CaseNameList.SetItemForegroundColour(self.CurrentCase, wx.Colour(0, 255, 128))
             modentry = self.CaseList[self.CurrentCase][0]
             modentry = '[F]' + modentry
-            if self.FilterType == 0:
-                self.CaseNameList.SetString(self.CurrentCase, modentry)
-            elif self.FilterType == 1:
-                self.NameList[self.NotRunIndexXREF[self.CurrentCase]] = modentry
-            elif self.FilterType == 2:
-                self.NameList[self.PassIndexXREF[self.CurrentCase]] = modentry
-            elif self.FilterType == 4:
-                self.NameList[self.BlockIndexXREF[self.CurrentCase]] = modentry
-            self.CaseList[self.CurrentCase][2] = 'f'
+            self.CaseNameList.SetString(self.CurrentCase, modentry)
             self.CurrentCase = self.CurrentCase+1
             if begin:
                 self.CurrentCase = 0
@@ -302,43 +237,12 @@ class Frame1(wx.Frame):
         else:
             begin = self.ShowNext()
             update = Backend.UpdateResult(self.CaseIndex[self.CurrentCase], self.CurrentTestPlan, 'b')
-            if self.FilterType == 0:
-                update = Backend.UpdateResult(self.CaseIndex[self.CurrentCase], self.CurrentTestPlan, 'b')
-            elif self.FilterType == 1:
-                update = Backend.UpdateResult(self.NotRunIndex[self.CurrentCase], self.CurrentTestPlan, 'b')
-                self.NotRunIndex.pop(self.CurrentCase)
-                self.NotRunNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.NotRunNameList)
-            elif self.FilterType == 2:
-                update = Backend.UpdateResult(self.PassIndex[self.CurrentCase], self.CurrentTestPlan, 'b')
-                self.PassIndex.pop(self.CurrentCase)
-                self.PassNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.FailNameList)
-            elif self.FilterType == 3:
-                update = Backend.UpdateResult(self.FailIndex[self.CurrentCase], self.CurrentTestPlan, 'b')
-                self.FailIndex.pop(self.CurrentCase)
-                self.FailNameList.pop(self.CurrentCase)
-                self.CaseNameList.Set(self.BlockNameList)
-            elif self.FilterType == 4:
-                pass
-            
+            self.CaseNameList.SetItemBackgroundColour(self.CurrentCase, wx.Colour(0, 255, 128))
+            self.CaseNameList.SetItemForegroundColour(self.CurrentCase, wx.Colour(0, 255, 128))
             modentry = self.CaseList[self.CurrentCase][0]
             modentry = '[B]' + modentry
             self.CaseNameList.SetString(self.CurrentCase, modentry)
-            self.NameList[self.CurrentCase] = modentry
-            self.CaseList[self.CurrentCase][2] = 'b'
-            
-            if self.FilterType == 0:
-                self.CaseNameList.SetString(self.CurrentCase, modentry)
-            elif self.FilterType == 1:
-                self.NameList[self.NotRunIndexXREF[self.CurrentCase]] = modentry
-            elif self.FilterType == 2:
-                self.NameList[self.PassIndexXREF[self.CurrentCase]] = modentry
-            elif self.FilterType == 3:
-                self.NameList[self.FailIndexXREF[self.CurrentCase]] = modentry
-            self.CaseList[self.CurrentCase][2] = 'b'
             self.CurrentCase = self.CurrentCase+1
-            
             if begin:
                 self.CurrentCase = 0
             self.UpdateTestPlanResults(self.CurrentTestPlan)
@@ -393,6 +297,7 @@ class Frame1(wx.Frame):
             self.dlg3.ShowModal()
         finally:
             try:
+                
                 self.CurrentPlanDetails = self.dlg3.CurrentPlanDetails
                 #print "Test Case Selected..."
                 self.CaseList = self.dlg3.CaseList
@@ -427,71 +332,7 @@ class Frame1(wx.Frame):
                 #print "There was no data..."
 
     def OnFilterChoiceChoice(self, event):
-        self.FilterType = self.FilterChoice.GetSelection()
-        self.xrefList = []
-        print "Selection = ", self.FilterType
-        if self.FilterType == 0:
-            self.CaseNameList.Set(self.NameList)
-        elif self.FilterType > 0:
-            self.PassCaseList = []
-            self.FailCaseList = []
-            self.BlockCaseList = []
-            self.NotRunCaseList = []
-            
-            self.PassIndex = []
-            self.FailIndex = []
-            self.BlockIndex = []
-            self.NotRunIndex = []
-            
-            self.PassIndexXREF = []
-            self.FailIndexXREF = []
-            self.BlockIndexXREF = []
-            self.NotRunIndexXREF = []
-            
-            self.PassNameList = []
-            self.FailNameList = []
-            self.BlockNameList = []
-            self.NotRunNameList = []
-            i = 0
-            for entry in self.CaseList:
-                if entry[2] == 'n':
-                    self.NotRunCaseList.append(entry)
-                    self.NotRunNameList.append(entry[0])
-                    self.NotRunIndex.append(self.CaseIndex[i])
-                    self.NotRunIndexXREF.append(i)
-                    
-                elif entry[2] == 'p':
-                    self.PassCaseList.append(entry)
-                    self.PassNameList.append(entry[0])
-                    self.PassIndex.append(self.CaseIndex[i])
-                    self.PassIndexXREF.append(i)
-                    
-                elif entry[2] == 'f':
-                    self.FailCaseList.append(entry)
-                    self.FailNameList.append(entry[0])
-                    self.FailIndex.append(self.CaseIndex[i])
-                    self.FailIndexXREF.append(i)
-                    
-                elif entry[2] == 'b':
-                    self.BlockCaseList.append(entry)
-                    self.BlockNameList.append(entry[0])
-                    self.BlockIndex.append(self.CaseIndex[i])
-                    self.BlockIndexXREF.append(i)
-                i = i + 1
-            if self.FilterType == 1:
-                self.CaseNameList.Set(self.NotRunNameList)
-                print self.CaseIndex
-            elif self.FilterType == 2:
-                self.CaseNameList.Set(self.PassNameList)
-                print self.PassIndex
-            elif self.FilterType == 3:
-                self.CaseNameList.Set(self.FailNameList)
-                print self.FailIndex
-            elif self.FilterType == 4:
-                self.CaseNameList.Set(self.BlockNameList)
-                print self.BlockIndex
-                
-                 
-                
+        FilterType = self.FilterChoice.GetSelection()
+        print "Selection = ", FilterType
             
             
