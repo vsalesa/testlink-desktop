@@ -10,18 +10,9 @@ entry = []
 def GetList():
     return sample
 
-def GetCasesFromPlan(planid):
+def GetCases(planid):
     Cases = TL.getTestCasesForTestPlan(planid)
     return Cases
-
-def GetCaseFromID(caseid):
-    Case = TL.getTestCase(caseid)
-    return Case
-
-def GetSummary(caseid):
-    summary = TL.getTestCase(caseid)
-    #summary = summary[0]['summary']
-    return summary
 
 def GetPlatforms(planid):
     Platforms = TL.getTestPlanPlatforms(planid)
@@ -31,67 +22,16 @@ def GetProjects():
     Projects = TL.getProjects()
     return Projects
 
-def GetSuitesInProject(projectid):
-    Suites = TL.getFirstLevelTestSuitesForTestProject(projectid)
-    return Suites
-
 def GetTestPlans(projectid):
     TestPlans = TL.getProjectTestPlans(projectid)
     return TestPlans
 
-def UpdateResult(caseid, planid, status):
-    update = TL.reportTCResult(caseid, planid, status)
+def UpdateResult(caseid, planid, status, platform):
+    update = TL.reportTCResult(caseid, planid, status, platform)
     return update
 
 def UpdateTotals(planid):
     totals = TL.getTotalsForTestPlan(planid)
     return totals
 
-def GetSuitesInSuite(suiteid):
-    suites = TL.getTestSuitesForTestSuite(suiteid)
-    return suites
 
-def GetCasesInSuite(suiteid):
-    cases = TL.getTestCasesForTestSuite(suiteid,0,1)
-    return cases
-
-def CreateTestPlan(planname, projectname):
-    args = [planname, projectname]
-    response = TL.createTestPlan(*args)
-    return response
-
-def AddCaseToTestPlan(projectid, planid, caseexternalid, version):
-    response = TL.addTestCaseToTestPlan(projectid, planid, caseexternalid, version)
-    return response
-
-def GetLastExecutionResult(planid, caseid):
-    response = TL.getLastExecutionResult(planid, caseid)
-    return response
-
-def CreateBuild(planid, buildname, buildnotes):
-    response = TL.createBuild(planid, buildname, buildnotes)
-    return response
-
-def GetCaseCountForProject(projectname):
-    response = TL.getTestProjectByName(projectname)
-    count = response[0]['tc_counter']
-    return count
-
-def CreateTestSuite(projectid, testsuitename, details, parentid):
-    if parentid == False:
-        args = [projectid, testsuitename, details]
-    else:
-        args = [projectid, testsuitename, details, ('parentid='+str(parentid))]
-    response = TL.createTestSuite(*args)
-    return response
-    
-def CreateTestCase(testcasename, testsuiteid, testprojectid, authorlogin,
-                   summary, steps):
-    print "Create Test Case Parameters: ", (testcasename, testsuiteid, testprojectid,
-                                 authorlogin, summary, steps)
-    args = [testcasename, testsuiteid, testprojectid,
-                                 authorlogin, summary]
-    response = TL.createTestCase(*args)
-    
-    return response
-    
