@@ -68,7 +68,6 @@ class Dialog2(wx.Dialog):
         
     def OnUploadCasesButton(self, event):
         case = self.CaseTitle.GetValue()
-        case = case.replace(' ', '_')
         summary = self.CaseSummary.GetValue()
         caseSummary = case + ': ' + summary
         self.CaseList.append((case, summary))
