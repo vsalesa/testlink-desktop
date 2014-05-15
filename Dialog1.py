@@ -3,34 +3,32 @@
 import wx
 import wx.html
 import Backend
-import Dialog2
 import Dialog3
-import Dialog4
 import cPickle as pickle
 
 def create(parent):
     return Dialog1(parent)
 
-[wxID_DIALOG1, wxID_DIALOG1APPENDTESTPLAN, wxID_DIALOG1CASELIST, 
- wxID_DIALOG1CASESLABEL, wxID_DIALOG1CREATECASEBUTTON, 
- wxID_DIALOG1CREATESUITEBUTTON, wxID_DIALOG1CURRENTSUITELABEL, 
- wxID_DIALOG1EXECUTIONLIST, wxID_DIALOG1GETPROJECTBUTTON, 
- wxID_DIALOG1HTMLWINDOW1, wxID_DIALOG1INPUTLABEL, wxID_DIALOG1LOADTESTPLAN, 
- wxID_DIALOG1PANEL1, wxID_DIALOG1PLANNAME, wxID_DIALOG1PROJECTCHOICE, 
- wxID_DIALOG1PROJECTLABEL, wxID_DIALOG1QUEUECOUNTDISPLAY, 
- wxID_DIALOG1QUEUELABEL, wxID_DIALOG1SAVEPLANBUTTON, wxID_DIALOG1SAVINGGAUGE, 
- wxID_DIALOG1STATICLINE1, wxID_DIALOG1STATICLINE2, wxID_DIALOG1STATICLINE3, 
- wxID_DIALOG1STATICLINE4, wxID_DIALOG1STATICLINE5, wxID_DIALOG1SUITESLABEL, 
- wxID_DIALOG1SUITESLIST, wxID_DIALOG1SUMMARYLABEL, 
-] = [wx.NewId() for _init_ctrls in range(28)]
+[wxID_DIALOG1, wxID_DIALOG1CASELIST, wxID_DIALOG1CASESLABEL, 
+ wxID_DIALOG1CREATECASEBUTTON, wxID_DIALOG1CREATESUITEBUTTON, 
+ wxID_DIALOG1CURRENTSUITELABEL, wxID_DIALOG1EXECUTIONLIST, 
+ wxID_DIALOG1GETPROJECTBUTTON, wxID_DIALOG1HTMLWINDOW1, 
+ wxID_DIALOG1INPUTLABEL, wxID_DIALOG1PANEL1, wxID_DIALOG1PLANNAME, 
+ wxID_DIALOG1PROJECTCHOICE, wxID_DIALOG1PROJECTLABEL, 
+ wxID_DIALOG1QUEUECOUNTDISPLAY, wxID_DIALOG1QUEUELABEL, 
+ wxID_DIALOG1SAVEPLANBUTTON, wxID_DIALOG1SAVINGGAUGE, wxID_DIALOG1STATICLINE1, 
+ wxID_DIALOG1STATICLINE2, wxID_DIALOG1STATICLINE3, wxID_DIALOG1STATICLINE4, 
+ wxID_DIALOG1STATICLINE5, wxID_DIALOG1SUITESLABEL, wxID_DIALOG1SUITESLIST, 
+ wxID_DIALOG1SUMMARYLABEL, 
+] = [wx.NewId() for _init_ctrls in range(26)]
 
 class Dialog1(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG1, name='', parent=prnt,
-              pos=wx.Point(652, 33), size=wx.Size(701, 686),
+              pos=wx.Point(624, 39), size=wx.Size(705, 658),
               style=wx.DEFAULT_DIALOG_STYLE, title='Create Test Plan')
-        self.SetClientSize(wx.Size(685, 648))
+        self.SetClientSize(wx.Size(689, 620))
 
         self.panel1 = wx.Panel(id=wxID_DIALOG1PANEL1, name='panel1',
               parent=self, pos=wx.Point(8, 8), size=wx.Size(688, 536),
@@ -113,14 +111,10 @@ class Dialog1(wx.Dialog):
         self.CreateSuiteButton = wx.Button(id=wxID_DIALOG1CREATESUITEBUTTON,
               label='Create Suite', name='CreateSuiteButton', parent=self,
               pos=wx.Point(24, 552), size=wx.Size(216, 24), style=0)
-        self.CreateSuiteButton.Bind(wx.EVT_BUTTON,
-              self.OnCreateSuiteButtonButton, id=wxID_DIALOG1CREATESUITEBUTTON)
 
         self.CreateCaseButton = wx.Button(id=wxID_DIALOG1CREATECASEBUTTON,
-              label='Create Test Cases', name='CreateCaseButton', parent=self,
+              label='Create Test Case', name='CreateCaseButton', parent=self,
               pos=wx.Point(256, 552), size=wx.Size(208, 23), style=0)
-        self.CreateCaseButton.Bind(wx.EVT_BUTTON, self.OnCreateCaseButtonButton,
-              id=wxID_DIALOG1CREATECASEBUTTON)
 
         self.staticLine4 = wx.StaticLine(id=wxID_DIALOG1STATICLINE4,
               name='staticLine4', parent=self, pos=wx.Point(248, 552),
@@ -132,7 +126,7 @@ class Dialog1(wx.Dialog):
 
         self.SavePlanButton = wx.Button(id=wxID_DIALOG1SAVEPLANBUTTON,
               label='Save Test Plan', name='SavePlanButton', parent=self,
-              pos=wx.Point(480, 584), size=wx.Size(192, 23), style=0)
+              pos=wx.Point(480, 584), size=wx.Size(88, 23), style=0)
         self.SavePlanButton.Bind(wx.EVT_BUTTON, self.OnSavePlanButtonButton,
               id=wxID_DIALOG1SAVEPLANBUTTON)
 
@@ -158,20 +152,8 @@ class Dialog1(wx.Dialog):
               pos=wx.Point(488, 544), size=wx.Size(75, 13), style=0)
 
         self.SavingGauge = wx.Gauge(id=wxID_DIALOG1SAVINGGAUGE,
-              name='SavingGauge', parent=self, pos=wx.Point(480, 632),
+              name='SavingGauge', parent=self, pos=wx.Point(480, 608),
               range=100, size=wx.Size(192, 8), style=wx.GA_HORIZONTAL)
-
-        self.LoadTestPlan = wx.Button(id=wxID_DIALOG1LOADTESTPLAN,
-              label='Load Test Plan', name='LoadTestPlan', parent=self,
-              pos=wx.Point(576, 608), size=wx.Size(96, 23), style=0)
-        self.LoadTestPlan.Bind(wx.EVT_BUTTON, self.OnLoadTestPlanButton,
-              id=wxID_DIALOG1LOADTESTPLAN)
-
-        self.AppendTestPlan = wx.Button(id=wxID_DIALOG1APPENDTESTPLAN,
-              label='Append Test Plan', name='AppendTestPlan', parent=self,
-              pos=wx.Point(480, 608), size=wx.Size(96, 24), style=0)
-        self.AppendTestPlan.Bind(wx.EVT_BUTTON, self.OnAppendTestPlanButton,
-              id=wxID_DIALOG1APPENDTESTPLAN)
 
     def __init__(self, parent):
         self._init_ctrls(parent)
@@ -185,8 +167,6 @@ class Dialog1(wx.Dialog):
         self.CurrentProjectPrefix = 'x'
         self.CurrentTestPlan = 'x'
         self.CurrentPlatform = 'x'
-        self.LoadQueueList = []
-        self.LoadQueueIDList = []
         for z in range(0, len(Projects)):
             self.ProjectIndex.append(Projects[z]['id'])
             self.ProjectName.append(Projects[z]['name'])
@@ -286,6 +266,7 @@ class Dialog1(wx.Dialog):
             self.RankIDTracker.append(self.CurrentSuiteID)
             Suites = Backend.GetSuitesInSuite(self.CurrentSuiteID)
             Cases = Backend.GetCasesInSuite(self.CurrentSuiteID)
+            #print "Forward cases: ", Cases
             self.SuiteList = ['..']
             self.SuiteIDList = ['..']
             self.CasesList = []
@@ -306,16 +287,14 @@ class Dialog1(wx.Dialog):
             #print "Suites"
             #print Suites
             #print self.SuiteList, self.SuiteIDList
-            #print Cases
-            for z in range(0, len(Cases)):
+            
+            for z in range(0, len(Cases)-1):
                 if Cases[z]['id'] in self.QueueIDList:
                     pass
                 else:
                     #print "Appending... ", Cases[z]['id'], Cases[z]['name']
                     self.CasesList.append(Cases[z]['name'])
                     self.CasesIDList.append(Cases[z]['id'])
-                    #print "Turn #", z
-            #print self.CasesList
         
         #print 'Suites: ', Suites
         
@@ -368,10 +347,6 @@ class Dialog1(wx.Dialog):
         self.QueueList.pop(choice)
         self.QueueIDList.pop(choice)
         self.ExecutionList.Set(self.QueueList)
-        if choice > len(self.QueueList)-1:
-            self.ExecutionList.SetSelection(choice-1)
-        else:
-            self.ExecutionList.SetSelection(choice)
         self.UpdateQueueCount()
     
     def UpdateQueueCount(self):
@@ -388,7 +363,7 @@ class Dialog1(wx.Dialog):
         except:
             PickleLoad = {}
         #print "Pickle Load: ", PickleLoad
-        name = "*API* " + name
+        name = "*API*->" + name
         #print name
         #print self.CurrentProjectName
         #print "Prefix=",self.CurrentProjectPrefix
@@ -396,7 +371,7 @@ class Dialog1(wx.Dialog):
         #print response
         response_id = response[0]['id']
         response = Backend.CreateBuild(response_id, "Auto Build",
-            "This build was created automatically by the API to avoid execution issues...")
+            "This build was created automatically by the API to avoid execution issues..")
         #print "Build creation response...", response
         #print "Response ID: ", response_id
         i = 0
@@ -409,8 +384,6 @@ class Dialog1(wx.Dialog):
             version = summary[0]['version']
             version = int(version)
             #print "external id, version", external_id, version
-            print "args = ", (self.CurrentProject,
-                        response_id, external_id, version)
             response = Backend.AddCaseToTestPlan(self.CurrentProject,
                         response_id, external_id, version)
             #print response
@@ -429,157 +402,7 @@ class Dialog1(wx.Dialog):
         pickle.dump(PickleLoad, open('SavedTestPlan.pkl', 'wb'))
         self.SavingGauge.SetValue(0)
         self.InputLabel.SetLabel('Test Case Name')
-
-    def OnCreateCaseButtonButton(self, event):
-        print self.RankTracker
-        if len(self.RankTracker) > 1:
-            self.dlg2 = Dialog2.Dialog2(self)
-            try:
-                self.dlg2.ShowModal()
-            finally:
-                try:
-                    self.UploadCases = self.dlg2.CaseList
-                    total = len(self.UploadCases)
-                    i = 0
-                    for case in self.UploadCases:
-                        response = Backend.CreateTestCase(case[0], self.RankIDTracker[-1],
-                            self.CurrentProject, 'justin', case[1], [])
-                        print response
-                        response_id = response[0]['id']
-                        self.CasesList.append(case[0])
-                        self.CasesIDList.append(response_id)
-                        i = i + 1
-                        progress = (float(i)/float(total))*100.0
-                        self.SavingGauge.SetValue(progress)
-                    self.CaseList.Set(self.CasesList)
-                    self.SavingGauge.SetValue(0)
-                finally:
-                    pass
-        else:
-            pass
-
-    def OnLoadTestPlanButton(self, event):
-        #print "Current Project", self.CurrentProject
-        self.dlg3 = Dialog3.Dialog3(self)
-        try:
-            self.dlg3.ShowModal()
-        finally:
-            try:
-                self.CurrentPlanDetails = self.dlg3.CurrentPlanDetails
-                self.CasesList = self.dlg3.CaseList
-                #print self.CurrentPlanDetails
-                self.QueueList = []
-                self.QueueIDList = []
-                self.CasesList = []
-                self.CasesIDList = []
-                self.ExecutionList.Set(self.QueueList)
-                self.CaseList.Set(self.CasesList)
-                self.CurrentProject = self.CurrentPlanDetails['project']
-                self.CurrentProjectName = self.ProjectName[self.ProjectIndex.index(self.CurrentProject)]
-                self.CurrentProjectPrefix = self.ProjectPrefix[self.ProjectIndex.index(self.CurrentProject)]
-                self.CurrentCount = Backend.GetCaseCountForProject(self.CurrentProjectName)
-                Suites = Backend.GetSuitesInProject(self.CurrentProject)
-                self.SuiteList = []
-                self.SuiteIDList = []
-                for suite in Suites:
-                    #print suite['name']
-                    self.SuiteList.append(suite['name'])
-                    self.SuiteIDList.append(suite['id'])
-                self.SuitesList.Set(self.SuiteList)
-                self.RankTracker = [self.CurrentProjectName]
-                self.RankIDTracker = [self.CurrentProject]
-                self.UpdateSuiteListLabel()
-                choice = self.ExecutionList.GetSelection()
-                self.QueueIDList = self.CurrentPlanDetails['cases']
-                self.QueueList = []
-                plan = self.CurrentPlanDetails['testplanid']
-                testplancases = Backend.GetCasesFromPlan(plan)
-                for i in self.QueueIDList:
-                    #print i
-                    self.QueueList.append(testplancases[i][0]['name'])
-                #print self.CurrentProjectName, self.CurrentProjectPrefix
-                #print self.QueueList
-                self.LoadQueueList = self.QueueList
-                self.LoadQueueIDList = self.QueueIDList
-                self.ExecutionList.Set(self.QueueList)
-                
-                self.UpdateQueueCount()
-                
-                
-            finally:
-                pass
-
-    def OnAppendTestPlanButton(self, event):
-        print "Current Project", self.CurrentProject
-        self.dlg3 = Dialog3.Dialog3(self)
-        try:
-            self.dlg3.ShowModal()
-        finally:
-            try:
-                self.CurrentPlanDetails = self.dlg3.CurrentPlanDetails
-                self.CasesList = self.dlg3.CaseList
-                self.CurrentPlan = self.dlg3.CurrentPlan
-                print self.CurrentPlanDetails
-                print "LoadQueueIDList", self.LoadQueueIDList
-                print "LoadQueueIDList", self.QueueIDList
-                NewCaseList = []
-                i = 0
-                response_id = self.CurrentPlanDetails['testplanid']
-                cases = self.CurrentPlanDetails['cases']
-                if self.CurrentProject == self.CurrentPlanDetails['project']:
-                    for case in self.LoadQueueIDList:
-                        if case in cases:
-                            pass
-                            print "Passed case #", case
-                        else:
-                            summary = Backend.GetCaseFromID(case)
-                            external_id = summary[0]['tc_external_id']
-                            external_id = self.CurrentProjectPrefix + "-" + external_id
-                            version = summary[0]['version']
-                            version = int(version)
-                            print "Appending case #", case
-                            response = Backend.AddCaseToTestPlan(self.CurrentProject,
-                                        response_id, external_id, version)
-                            print "Response: ", response 
-                        i = i + 1
-                        total = len(self.LoadQueueIDList)
-                        progress = float(i)/float(total)
-                        progress = progress * 100.0
-                        self.SavingGauge.SetValue(progress)
-                    PickleLoad = pickle.load(open('SavedTestPlan.pkl', 'rb'))
-                    PickleLoad[self.CurrentPlan]['cases'] = self.QueueIDList
-                    pickle.dump(PickleLoad, open('SavedTestPlan.pkl', 'wb'))
-                    self.SavingGauge.SetValue(0)
-                    self.InputLabel.SetLabel('Test Case Name') 
-                            
-                            
-                            
-            finally:
-                pass
-
-    def OnCreateSuiteButtonButton(self, event):
-        if self.CurrentProject != 'x':
-            print "Create Suite", self.CurrentProject
-            self.dlg4 = Dialog4.Dialog4(self)
-            try:
-                self.dlg4.ShowModal()
-            finally:
-                try:
-                    self.Entry = self.dlg4.Entry
-                    print self.Entry
-                    print "Should be closed"
-                    print len(self.RankIDTracker)
-                    if len(self.RankIDTracker) == 1:
-                        print "Top Level Suite"
-                        parentid = False
-                    else:
-                        parentid = self.RankIDTracker[-1]
-                    response = Backend.CreateTestSuite(self.CurrentProject, 
-                                self.Entry[0], self.Entry[1], parentid)
-                    print response
-                    response_id = response[0]['id']
-                    self.SuiteList.append(self.Entry[0])
-                    self.SuiteIDList.append(response_id)
-                    self.SuitesList.Set(self.SuiteList)
-                finally:
-                    pass
+        
+        
+            
+            

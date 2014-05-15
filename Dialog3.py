@@ -44,8 +44,8 @@ class Dialog3(wx.Dialog):
         
     def OnListBox1Listbox(self, event):
         selection = self.listBox1.GetSelection()
-        self.CurrentPlan = self.PlanList[selection]
-        self.CurrentPlanDetails = self.PickleLoad[self.CurrentPlan]
+        CurrentPlan = self.PlanList[selection]
+        self.CurrentPlanDetails = self.PickleLoad[CurrentPlan]
         #print self.CurrentPlanDetails
         cases = self.CurrentPlanDetails['cases']
         plan = self.CurrentPlanDetails['testplanid']
@@ -55,7 +55,7 @@ class Dialog3(wx.Dialog):
         testplancases = Backend.GetCasesFromPlan(plan)
         #print testplancases.keys()
         #print testplancases
-        for case in cases:
+        for case in testplancases.keys():
             i = i + 1
             name = testplancases[case][0]['name']
             summary = testplancases[case][0]['summary']

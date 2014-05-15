@@ -1,85 +1,59 @@
 #Boa:Dialog:Dialog2
 
 import wx
-import Dialog1
 
 def create(parent):
     return Dialog2(parent)
 
-[wxID_DIALOG2, wxID_DIALOG2ADDCASETOPROJECT, wxID_DIALOG2CASESTOUPLOAD, 
- wxID_DIALOG2CASESUMMARY, wxID_DIALOG2CASETITLE, wxID_DIALOG2CURRENTSUITETEXT, 
- wxID_DIALOG2STATICTEXT2, wxID_DIALOG2STATICTEXT3, wxID_DIALOG2UPLOADCASES, 
-] = [wx.NewId() for _init_ctrls in range(9)]
+[wxID_DIALOG2, wxID_DIALOG2BUTTON1, wxID_DIALOG2LISTBOX1, 
+ wxID_DIALOG2LISTBOX2, wxID_DIALOG2STATICTEXT1, wxID_DIALOG2STATICTEXT2, 
+ wxID_DIALOG2STATICTEXT3, wxID_DIALOG2SUMMARY, wxID_DIALOG2TEXTCTRL1, 
+ wxID_DIALOG2TEXTCTRL2, 
+] = [wx.NewId() for _init_ctrls in range(10)]
 
 class Dialog2(wx.Dialog):
     def _init_ctrls(self, prnt):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_DIALOG2, name='', parent=prnt,
-              pos=wx.Point(448, 62), size=wx.Size(857, 439),
+              pos=wx.Point(502, 202), size=wx.Size(857, 485),
               style=wx.DEFAULT_DIALOG_STYLE, title='Test Case Title')
-        self.SetClientSize(wx.Size(841, 401))
+        self.SetClientSize(wx.Size(841, 447))
 
-        self.CasesToUpload = wx.ListBox(choices=[],
-              id=wxID_DIALOG2CASESTOUPLOAD, name='CasesToUpload', parent=self,
-              pos=wx.Point(8, 24), size=wx.Size(824, 192), style=0)
-        self.CasesToUpload.Bind(wx.EVT_LISTBOX, self.OnCasesToUploadListbox,
-              id=wxID_DIALOG2CASESTOUPLOAD)
+        self.listBox2 = wx.ListBox(choices=[], id=wxID_DIALOG2LISTBOX2,
+              name='listBox2', parent=self, pos=wx.Point(8, 24),
+              size=wx.Size(288, 192), style=0)
 
-        self.CurrentSuiteText = wx.StaticText(id=wxID_DIALOG2CURRENTSUITETEXT,
-              label='Test Cases To Be Uploaded', name='CurrentSuiteText',
-              parent=self, pos=wx.Point(16, 8), size=wx.Size(132, 13), style=0)
+        self.listBox1 = wx.ListBox(choices=[], id=wxID_DIALOG2LISTBOX1,
+              name='listBox1', parent=self, pos=wx.Point(296, 24),
+              size=wx.Size(536, 192), style=0)
 
-        self.CaseTitle = wx.TextCtrl(id=wxID_DIALOG2CASETITLE, name='CaseTitle',
-              parent=self, pos=wx.Point(8, 240), size=wx.Size(288, 24), style=0,
+        self.staticText1 = wx.StaticText(id=wxID_DIALOG2STATICTEXT1,
+              label='Test Case Title', name='staticText1', parent=self,
+              pos=wx.Point(16, 8), size=wx.Size(72, 13), style=0)
+
+        self.Summary = wx.StaticText(id=wxID_DIALOG2SUMMARY, label='Summary',
+              name='Summary', parent=self, pos=wx.Point(304, 8),
+              size=wx.Size(45, 13), style=0)
+
+        self.textCtrl1 = wx.TextCtrl(id=wxID_DIALOG2TEXTCTRL1, name='textCtrl1',
+              parent=self, pos=wx.Point(8, 240), size=wx.Size(288, 21), style=0,
               value='')
 
-        self.CaseSummary = wx.TextCtrl(id=wxID_DIALOG2CASESUMMARY,
-              name='CaseSummary', parent=self, pos=wx.Point(8, 288),
-              size=wx.Size(824, 72), style=0, value='')
+        self.textCtrl2 = wx.TextCtrl(id=wxID_DIALOG2TEXTCTRL2, name='textCtrl2',
+              parent=self, pos=wx.Point(8, 288), size=wx.Size(824, 72), style=0,
+              value='')
 
         self.staticText2 = wx.StaticText(id=wxID_DIALOG2STATICTEXT2,
               label='Test Case Title', name='staticText2', parent=self,
               pos=wx.Point(8, 224), size=wx.Size(72, 13), style=0)
 
         self.staticText3 = wx.StaticText(id=wxID_DIALOG2STATICTEXT3,
-              label='Test Case Summary', name='staticText3', parent=self,
-              pos=wx.Point(8, 272), size=wx.Size(96, 13), style=0)
+              label='Summary', name='staticText3', parent=self, pos=wx.Point(8,
+              272), size=wx.Size(45, 13), style=0)
 
-        self.UploadCases = wx.Button(id=wxID_DIALOG2UPLOADCASES,
-              label='Upload Test Cases', name='UploadCases', parent=self,
-              pos=wx.Point(8, 368), size=wx.Size(216, 23), style=0)
-        self.UploadCases.Bind(wx.EVT_BUTTON, self.OnUploadCasesButton,
-              id=wxID_DIALOG2UPLOADCASES)
-
-        self.AddCaseToProject = wx.Button(id=wxID_DIALOG2ADDCASETOPROJECT,
-              label='Add Cases to Project', name='AddCaseToProject',
-              parent=self, pos=wx.Point(240, 368), size=wx.Size(176, 23),
-              style=0)
-        self.AddCaseToProject.Bind(wx.EVT_BUTTON, self.OnAddCaseToProjectButton,
-              id=wxID_DIALOG2ADDCASETOPROJECT)
+        self.button1 = wx.Button(id=wxID_DIALOG2BUTTON1, label='Add Test Case',
+              name='button1', parent=self, pos=wx.Point(8, 368),
+              size=wx.Size(144, 23), style=0)
 
     def __init__(self, parent):
         self._init_ctrls(parent)
-        self.CaseTitle.SetFocus()
-        self.CaseList = []
-        self.CaseDisplay = []
-        self.dlg1 = Dialog1.Dialog1(self)
-        current = self.dlg1.CurrentProject
-        
-    def OnUploadCasesButton(self, event):
-        case = self.CaseTitle.GetValue()
-        case = case.replace(' ', '_')
-        summary = self.CaseSummary.GetValue()
-        caseSummary = case + ': ' + summary
-        self.CaseList.append((case, summary))
-        self.CaseDisplay.append(caseSummary)
-        self.CasesToUpload.Set(self.CaseDisplay)
-        self.CaseTitle.SetLabel('')
-        self.CaseSummary.SetLabel('')
-        self.CaseTitle.SetFocus()
-
-    def OnCasesToUploadListbox(self, event):
-        event.Skip()
-
-    def OnAddCaseToProjectButton(self, event):
-        self.Destroy()
