@@ -71,27 +71,6 @@ def GetLastExecutionResult(planid, caseid):
 def CreateBuild(planid, buildname, buildnotes):
     response = TL.createBuild(planid, buildname, buildnotes)
     return response
+    
 
-def GetCaseCountForProject(projectname):
-    response = TL.getTestProjectByName(projectname)
-    count = response[0]['tc_counter']
-    return count
 
-def CreateTestSuite(projectid, testsuitename, details, parentid):
-    if parentid == False:
-        args = [projectid, testsuitename, details]
-    else:
-        args = [projectid, testsuitename, details, ('parentid='+str(parentid))]
-    response = TL.createTestSuite(*args)
-    return response
-    
-def CreateTestCase(testcasename, testsuiteid, testprojectid, authorlogin,
-                   summary, steps):
-    print "Create Test Case Parameters: ", (testcasename, testsuiteid, testprojectid,
-                                 authorlogin, summary, steps)
-    args = [testcasename, testsuiteid, testprojectid,
-                                 authorlogin, summary]
-    response = TL.createTestCase(*args)
-    
-    return response
-    

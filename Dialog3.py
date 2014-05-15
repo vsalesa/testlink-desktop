@@ -44,18 +44,18 @@ class Dialog3(wx.Dialog):
         
     def OnListBox1Listbox(self, event):
         selection = self.listBox1.GetSelection()
-        self.CurrentPlan = self.PlanList[selection]
-        self.CurrentPlanDetails = self.PickleLoad[self.CurrentPlan]
-        #print self.CurrentPlanDetails
+        CurrentPlan = self.PlanList[selection]
+        self.CurrentPlanDetails = self.PickleLoad[CurrentPlan]
+        print self.CurrentPlanDetails
         cases = self.CurrentPlanDetails['cases']
         plan = self.CurrentPlanDetails['testplanid']
         i = 0
         total = len(cases)
         self.CaseList = []
         testplancases = Backend.GetCasesFromPlan(plan)
-        #print testplancases.keys()
-        #print testplancases
-        for case in cases:
+        print testplancases.keys()
+        print testplancases
+        for case in testplancases.keys():
             i = i + 1
             name = testplancases[case][0]['name']
             summary = testplancases[case][0]['summary']
@@ -64,5 +64,5 @@ class Dialog3(wx.Dialog):
             progress = float(i)/float(total)
             progress = progress * 100.0
             self.PlanLoadGauge.SetValue(progress)
-        #print "Case List: ", self.CaseList
+        print "Case List: ", self.CaseList
         self.Destroy()
