@@ -1,0 +1,1 @@
+Using Boa Constructor(wxpython visual IDE), a wxpython app was created in python to create a more efficient way to create test cases and test plans and execute those plan.  It includes an "Execution Queue" not available in the TestLink web app.
